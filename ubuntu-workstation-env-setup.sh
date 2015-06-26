@@ -94,3 +94,6 @@ git clone https://github.com/craigmayhew/bigprimes.net.git
 git clone https://github.com/craigmayhew/craig.mayhew.io.git
 git clone https://github.com/craigmayhew/rig.git
 git clone https://github.com/craigmayhew/scratchpad.git
+
+#make the pretty git lg command available
+it config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit" 

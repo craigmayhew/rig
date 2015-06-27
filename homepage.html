@@ -841,11 +841,11 @@
        var largestSide = $(window).height()>$(window).width()?$(window).height():$(window).width();
        var halfHeight = $(window).height()/2;
        var halfWidth  = $(window).width()/2;
-       var startingCircleRadius = 1;
+       var startingCircleRadius = 400;
        var endingCircleRadius = 1;
 
        var grd=ctx.createRadialGradient(halfWidth,halfHeight,startingCircleRadius,halfWidth,halfHeight/2,largestSide/2);
-       grd.addColorStop(0,"#002a00");
+       grd.addColorStop(0,"#005f00");
        grd.addColorStop(1,"green");
   
        // Fill with gradient

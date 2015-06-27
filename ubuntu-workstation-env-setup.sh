@@ -21,6 +21,7 @@ sudo apt-get install sbt
 #cleanup
 sudo apt-get autoremove
 
+#setup ssh server
 cat >/etc/ssh/sshd_config <<EOL
 # Package generated configuration file
 # See the sshd_config(5) manpage for details

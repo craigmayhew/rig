@@ -77,6 +77,17 @@ deb-src http://ppa.launchpad.net/zfs-native/stable/ubuntu vivid main
 #install zfs package
 sudo apt-get install ubuntu-zfs
 
+#create zfs tank over our 12 logical disks
+zpool create -m /tank tank sdb sdc sdd sde sdf sdg sdh sdi sdj sdk sdl sdm
+
+#set some zfs flags for compression dedupe
+zfs set dedupe=on tank
+zfs set dedup=fletcher4,verify tank
+zfs set compression=gzip tank
+
+#mount the volume every time the system boots
+echo 'zfs_enable="YES"' >> /etc/rc.conf
+
 #install antivirus
 sudo apt-get install clamav-daemon
 sudo freshclam

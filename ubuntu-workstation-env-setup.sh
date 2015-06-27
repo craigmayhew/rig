@@ -70,6 +70,13 @@ AcceptEnv LANG LC_*
 Subsystem sftp /usr/lib/openssh/sftp-server
 EOL
 
+#add sources so we can get zfs packages
+deb http://ppa.launchpad.net/zfs-native/stable/ubuntu vivid main
+deb-src http://ppa.launchpad.net/zfs-native/stable/ubuntu vivid main
+
+#install zfs package
+sudo apt-get install ubuntu-zfs
+
 #install antivirus
 sudo apt-get install clamav-daemon
 sudo freshclam

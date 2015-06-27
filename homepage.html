@@ -809,17 +809,18 @@
     </style>
   </head>
   <body>
-    <canvas id="canvas" width="1920" height="1200"></canvas>
-
     <script>
      $('body').append('<canvas id="canvas" width="'+$(window).width()+'" height="'+$(window).height()+'"></canvas>');
      var resizeWindow = function() {
        var c=document.getElementById("canvas");
        var ctx=c.getContext("2d");
        
-       var largestSide = $(window).height()>$(window).width()?$(window).height():$(window).width();
-       var halfHeight = $(window).height()/2;
-       var halfWidth  = $(window).width()/2;
+       var winWidth = $(window).width();
+       var winHeight = $(window).height();
+
+       var largestSide = winHeight>winWidth?winHeight:winWidth;
+       var halfHeight = winHeight/2;
+       var halfWidth  = winWidth/2;
        var startingCircleRadius = 400;
        var endingCircleRadius = 1;
 

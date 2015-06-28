@@ -111,6 +111,7 @@ mkdir -p ~/gitrepos/mine
 cd ~/gitrepos/mine
 git clone https://github.com/craigmayhew/bigprimes.net.git
 git clone https://github.com/craigmayhew/craig.mayhew.io.git
+git clone https://github.com/craigmayhew/rai.git
 git clone https://github.com/craigmayhew/rig.git
 git clone https://github.com/craigmayhew/scratchpad.git
 

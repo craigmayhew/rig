@@ -116,7 +116,7 @@ git clone https://github.com/craigmayhew/rig.git
 git clone https://github.com/craigmayhew/scratchpad.git
 
 #make the pretty git lg command available
-git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit"
+git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue) %an%Creset' --abbrev-commit"
 
 #add rai to crontab
 (crontab -l ; echo "*/10 * * * * php /home/craig/gitrepos/mine/rai/cron.php rss")| crontab -

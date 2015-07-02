@@ -97,6 +97,9 @@ sudo /etc/init.d/clamav-daemon start
 wget http://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-workbench-community-6.3.3-1ubu1404-amd64.deb
 sudo apt-get install mysql-workbench-community-6.3.3-1ubu1404-amd64.deb
 
+#install mysql command line client
+sudo apt-get install mysql-client-core-5.6
+
 #set terminal colours
 setterm -term linux -back black -fore white -clear
 
@@ -117,6 +120,13 @@ git clone https://github.com/craigmayhew/scratchpad.git
 
 #make the pretty git lg command available
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue) %an%Creset' --abbrev-commit"
+#set git global options
+git config --global color.diff auto
+git config --global color.status auto
+git config --global color.branch auto
+git config --global color.interactive auto
+git config --global color.ui auto
+git config --global gc.auto 1
 
 #add rai to crontab
 (crontab -l ; echo "*/10 * * * * php /home/craig/gitrepos/mine/rai/cron.php rss")| crontab -

@@ -1,3 +1,6 @@
+#cd to default directory of virtualbox
+cd C:\Program Files\Oracle\VirtualBox
+
 #if at any time you want info on your create vm
 #vboxmanage showvminfo rig
 

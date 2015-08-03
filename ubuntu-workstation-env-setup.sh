@@ -125,6 +125,11 @@ git clone https://github.com/craigmayhew/rai.git
 git clone https://github.com/craigmayhew/rig.git
 git clone https://github.com/craigmayhew/scratchpad.git
 
+#as we have cloned the rig repo, we have a custom homepage, but we are currently forced to drop into sudo for this
+sudo su
+echo 'user_pref("browser.startup.homepage", "/home/user/gitrepos/mine/rig/homepage.html");' >> /etc/firefox/syspref.js
+exit
+
 #make the pretty git lg command available
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue) %an%Creset' --abbrev-commit"
 #set git global options

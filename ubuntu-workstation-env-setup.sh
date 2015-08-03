@@ -100,6 +100,11 @@ sudo apt-get install mysql-workbench-community-6.3.3-1ubu1404-amd64.deb
 #install mysql command line client
 sudo apt-get install mysql-client-core-5.6
 
+#install skype
+sudo dpkg --add-architecture i386
+sudo add-apt-repository "deb http://archive.canonical.com/ $(lsb_release -sc) partner"
+sudo apt-get update && sudo apt-get install skype pulseaudio:i386
+
 #set terminal colours
 setterm --term linux --back black --fore white --clear all
 

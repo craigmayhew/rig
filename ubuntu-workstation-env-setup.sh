@@ -101,7 +101,7 @@ sudo apt-get install mysql-workbench-community-6.3.3-1ubu1404-amd64.deb
 sudo apt-get install mysql-client-core-5.6
 
 #set terminal colours
-setterm -term linux -back black -fore white -clear
+setterm --term linux --back black --fore white --clear all
 
 #download dot files from github
 cd ~/

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 sudo apt-get remove aisleriot brasero cheesegnome-mahjongg gnome-mines gnome-sudoku gnomine rhythmbox-plugin-zeitgeist rhythmbox rhythmbox-plugin-cdrecorder rhythmbox-mozilla rhythmbox-plugin-magnitude rhythmbox-plugins shotwell shotwell-common simple-scan
 
 sudo apt-get update

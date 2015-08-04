@@ -4,6 +4,9 @@
 #list os types, useful if you don't want to use ubuntu as we do in this script
 #vboxmanage list ostypes
 
+#cd to default directory of virtualbox
+cd C:\Program Files\Oracle\VirtualBox
+
 #create a virtualbox vm and register the vm
 vboxmanage createvm -name rig -register
 

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 sudo apt-get remove aisleriot brasero cheesegnome-mahjongg gnome-mines gnome-sudoku gnomine rhythmbox-plugin-zeitgeist rhythmbox rhythmbox-plugin-cdrecorder rhythmbox-mozilla rhythmbox-plugin-magnitude rhythmbox-plugins shotwell shotwell-common simple-scan
 
 sudo apt-get update
@@ -8,7 +10,7 @@ sudo apt-get install docker.io git libfreetype6:i386 libsm6:i386 libxext6:i386 o
 
 #lose unitf gnome and add xmbc
 sudo apt-get install xubuntu-desktop gksu leafpad synaptic
-sudo apt-get remove nautilus gnome-power-manager gnome-screensaver gnome-termina* gnome-pane* gnome-applet* gnome-bluetooth gnome-desktop* gnome-sessio* gnome-user* gnome-shell-common compiz compiz* unity unity* hud zeitgeist zeitgeist* python-zeitgeist libzeitgeist* activity-log-manager-common gnome-control-center gnome-screenshot overlay-scrollba* && sudo apt-get install xubuntu-community-wallpapers && sudo apt-get autoremove
+sudo apt-get remove gimp gmusicbrowser gnome-power-manager gnome-screensaver gnome-termina* gnome-pane* gnome-applet* gnome-bluetooth gnome-desktop* gnome-sessio* gnome-user* gnome-shell-common compiz compiz* unity unity* hud zeitgeist zeitgeist* python-zeitgeist libzeitgeist* activity-log-manager-common gnome-control-center gnome-screenshot nautilus overlay-scrollba* rhythmbox && sudo apt-get install xubuntu-community-wallpapers && sudo apt-get autoremove
 
 #install meld for comparing files in a gui
 sudo apt-get install meld
@@ -100,8 +102,13 @@ sudo apt-get install mysql-workbench-community-6.3.3-1ubu1404-amd64.deb
 #install mysql command line client
 sudo apt-get install mysql-client-core-5.6
 
+#install skype
+sudo dpkg --add-architecture i386
+sudo add-apt-repository "deb http://archive.canonical.com/ $(lsb_release -sc) partner"
+sudo apt-get update && sudo apt-get install skype pulseaudio:i386
+
 #set terminal colours
-setterm -term linux -back black -fore white -clear
+setterm --term linux --back black --fore white --clear all
 
 #download dot files from github
 cd ~/
@@ -117,6 +124,11 @@ git clone https://github.com/craigmayhew/craig.mayhew.io.git
 git clone https://github.com/craigmayhew/rai.git
 git clone https://github.com/craigmayhew/rig.git
 git clone https://github.com/craigmayhew/scratchpad.git
+
+#as we have cloned the rig repo, we have a custom homepage, but we are currently forced to drop into sudo for this
+sudo su
+echo 'user_pref("browser.startup.homepage", "/home/user/gitrepos/mine/rig/homepage.html");' >> /etc/firefox/syspref.js
+exit
 
 #make the pretty git lg command available
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue) %an%Creset' --abbrev-commit"

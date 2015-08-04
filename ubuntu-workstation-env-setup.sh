@@ -130,3 +130,4 @@ git config --global gc.auto 1
 
 #add rai to crontab
 (crontab -l ; echo "*/10 * * * * php /home/craig/gitrepos/mine/rai/cron.php rss")| crontab -
+(crontab -l ; echo "*/30 * * * * php /home/craig/gitrepos/mine/rai/cron.php myip")| crontab -

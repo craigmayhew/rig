@@ -12,6 +12,9 @@ sudo apt-get install docker.io git libfreetype6:i386 libsm6:i386 libxext6:i386 o
 sudo apt-get install xubuntu-desktop gksu leafpad synaptic
 sudo apt-get remove gimp gmusicbrowser gnome-power-manager gnome-screensaver gnome-termina* gnome-pane* gnome-applet* gnome-bluetooth gnome-desktop* gnome-sessio* gnome-user* gnome-shell-common compiz compiz* unity unity* hud zeitgeist zeitgeist* python-zeitgeist libzeitgeist* activity-log-manager-common gnome-control-center gnome-screenshot nautilus overlay-scrollba* rhythmbox && sudo apt-get install xubuntu-community-wallpapers && sudo apt-get autoremove
 
+#install openvpn
+sudo apt-get install openvpn
+
 #install meld for comparing files in a gui
 sudo apt-get install meld
 

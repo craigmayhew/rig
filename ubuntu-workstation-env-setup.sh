@@ -142,6 +142,7 @@ git config --global color.branch auto
 git config --global color.interactive auto
 git config --global color.ui auto
 git config --global gc.auto 1
+git config --global push.default simple
 
 #add rai to crontab
 (crontab -l ; echo "*/10 * * * * php /home/craig/gitrepos/mine/rai/cron.php rss")| crontab -

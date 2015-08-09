@@ -15,6 +15,9 @@ sudo apt-get remove gimp gmusicbrowser gnome-power-manager gnome-screensaver gno
 #install openvpn
 sudo apt-get install openvpn
 
+#install command line text based browser
+sudo apt-get install links
+
 #install meld for comparing files in a gui
 sudo apt-get install meld
 

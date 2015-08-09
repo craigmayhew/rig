@@ -138,6 +138,9 @@ exit
 
 #make the pretty git lg command available
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue) %an%Creset' --abbrev-commit"
+#undo the last git commit
+git config --global alias.undocommit "reset --soft HEAD~1"
+
 #set git global options
 git config --global color.diff auto
 git config --global color.status auto

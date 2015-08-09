@@ -140,6 +140,8 @@ exit
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue) %an%Creset' --abbrev-commit"
 #undo the last git commit
 git config --global alias.undocommit "reset --soft HEAD~1"
+#show the last commit as a diff
+git config --global alias.last "diff HEAD~1 HEAD"
 
 #set git global options
 git config --global color.diff auto

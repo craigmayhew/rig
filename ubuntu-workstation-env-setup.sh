@@ -21,6 +21,9 @@ sudo apt-get install links
 #install meld for comparing files in a gui
 sudo apt-get install meld
 
+#install curl
+sudo apt-get install curl
+
 #install scala build tool
 echo "deb http://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
 sudo apt-get update

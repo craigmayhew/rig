@@ -24,6 +24,9 @@ sudo apt-get install meld
 #install curl
 sudo apt-get install curl
 
+#install vim as we need it to make vi use pathogen etc
+sudo apt-get install vim
+
 #install scala build tool
 echo "deb http://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
 sudo apt-get update

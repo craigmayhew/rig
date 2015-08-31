@@ -10,13 +10,22 @@ sudo apt-get install docker.io git libfreetype6:i386 libsm6:i386 libxext6:i386 o
 
 #lose unitf gnome and add xmbc
 sudo apt-get install xubuntu-desktop gksu leafpad synaptic
-sudo apt-get remove gimp gmusicbrowser gnome-power-manager gnome-screensaver gnome-termina* gnome-pane* gnome-applet* gnome-bluetooth gnome-desktop* gnome-sessio* gnome-user* gnome-shell-common compiz compiz* unity unity* hud zeitgeist zeitgeist* python-zeitgeist libzeitgeist* activity-log-manager-common gnome-control-center gnome-screenshot nautilus overlay-scrollba* rhythmbox && sudo apt-get install xubuntu-community-wallpapers && sudo apt-get autoremove
+sudo apt-get remove gimp gmusicbrowser gnome-power-manager gnome-screensaver gnome-termina* gnome-pane* gnome-applet* gnome-bluetooth gnome-desktop* gnome-mahjongg gnome-sessio* gnome-user* gnome-shell-common compiz compiz* unity unity* hud zeitgeist zeitgeist* python-zeitgeist libzeitgeist* activity-log-manager-common gnome-control-center gnome-screenshot nautilus overlay-scrollba* rhythmbox && sudo apt-get install xubuntu-community-wallpapers && sudo apt-get autoremove
 
 #install openvpn
 sudo apt-get install openvpn
 
+#install command line text based browser
+sudo apt-get install links
+
 #install meld for comparing files in a gui
 sudo apt-get install meld
+
+#install curl
+sudo apt-get install curl
+
+#install vim as we need it to make vi use pathogen etc
+sudo apt-get install vim
 
 #install scala build tool
 echo "deb http://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
@@ -138,6 +147,11 @@ exit
 
 #make the pretty git lg command available
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue) %an%Creset' --abbrev-commit"
+#undo the last git commit
+git config --global alias.undocommit "reset --soft HEAD~1"
+#show the last commit as a diff
+git config --global alias.last "diff HEAD~1 HEAD"
+
 #set git global options
 git config --global color.diff auto
 git config --global color.status auto
@@ -145,6 +159,7 @@ git config --global color.branch auto
 git config --global color.interactive auto
 git config --global color.ui auto
 git config --global gc.auto 1
+git config --global push.default simple
 
 #add rai to crontab
 (crontab -l ; echo "*/10 * * * * php /home/craig/gitrepos/mine/rai/cron.php rss")| crontab -

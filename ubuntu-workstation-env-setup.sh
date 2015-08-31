@@ -119,6 +119,9 @@ git clone https://github.com/craigmayhew/dotfiles.git
 rsync -a dotfiles/ ~/
 rm -rf ~/dotfiles
 
+#we use this directory to hold our vim backup files
+mkdir -p ~/.vim/tmp
+
 #download repos from github that I maintain
 mkdir -p ~/gitrepos/mine
 cd ~/gitrepos/mine

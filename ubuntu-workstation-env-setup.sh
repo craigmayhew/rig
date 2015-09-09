@@ -161,6 +161,14 @@ git config --global color.ui auto
 git config --global gc.auto 1
 git config --global push.default simple
 
+#install hack font
+mkdir ~/.fonts/
+cd ~/.fonts/
+wget https://github.com/chrissimpkins/Hack/raw/master/build/ttf/Hack-Bold.ttf
+wget https://github.com/chrissimpkins/Hack/raw/master/build/ttf/Hack-BoldItalic.ttf
+wget https://github.com/chrissimpkins/Hack/raw/master/build/ttf/Hack-Italic.ttf
+wget https://github.com/chrissimpkins/Hack/raw/master/build/ttf/Hack-Regular.ttf
+
 #add rai to crontab
 (crontab -l ; echo "*/10 * * * * php /home/craig/gitrepos/mine/rai/cron.php rss")| crontab -
 (crontab -l ; echo "*/30 * * * * php /home/craig/gitrepos/mine/rai/cron.php myip")| crontab -

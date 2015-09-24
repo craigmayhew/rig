@@ -140,6 +140,13 @@ git clone https://github.com/craigmayhew/rai.git
 git clone https://github.com/craigmayhew/rig.git
 git clone https://github.com/craigmayhew/scratchpad.git
 
+#install arc for phabricator
+mkdir -p ~/gitrepos/others
+cd ~/gitrepos/others
+git clone https://github.com/phacility/libphutil.git
+git clone https://github.com/phacility/arcanist.git
+export PATH="$PATH:/home/craig/gitrepos/others/arcanist/bin"
+
 #as we have cloned the rig repo, we have a custom homepage, but we are currently forced to drop into sudo for this
 sudo su
 echo 'user_pref("browser.startup.homepage", "/home/user/gitrepos/mine/rig/homepage.html");' >> /etc/firefox/syspref.js

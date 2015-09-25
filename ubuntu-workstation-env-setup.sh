@@ -167,6 +167,7 @@ git config --global color.interactive auto
 git config --global color.ui auto
 git config --global gc.auto 1
 git config --global push.default simple
+git config --global branch.autosetuprebase always
 
 #install hack font
 mkdir ~/.fonts/

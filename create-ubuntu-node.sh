@@ -7,4 +7,4 @@ sudo apt-get install aptitude ubuntu-minimal
 sudo aptitude markauto '~i!~nubuntu-minimal'
 
 #linux, xorg for x windows system
-sudo apt-get install xorg openbox linux-image-generic 
+sudo apt-get install linux-image-generic openbox openssh-server xorg

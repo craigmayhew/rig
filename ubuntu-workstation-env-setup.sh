@@ -180,3 +180,10 @@ wget https://github.com/chrissimpkins/Hack/raw/master/build/ttf/Hack-Regular.ttf
 #add rai to crontab
 (crontab -l ; echo "*/10 * * * * php /home/craig/gitrepos/mine/rai/cron.php rss")| crontab -
 (crontab -l ; echo "*/30 * * * * php /home/craig/gitrepos/mine/rai/cron.php myip")| crontab -
+
+#install sencha tools
+sudo apt-get install openjdk-7-jre
+wget http://192.168.15.235/sencha/cmd-6.0.0.202-linux-amd64.zip
+unzip cmd-6.0.0.202-linux-amd64.zip
+./SenchaCmd-6.0.0.202-linux-amd64.sh
+sudo ln -s /home/craig/bin/Sencha/Cmd/sencha /usr/bin/sencha

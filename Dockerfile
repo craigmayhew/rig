@@ -8,6 +8,7 @@ FROM ubuntu:16.04
 
 MAINTAINER Craig Mayhew
 
+# run this to prevent the language question breaking apt-get further down this list of commands
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
 # Update the default application repository sources list

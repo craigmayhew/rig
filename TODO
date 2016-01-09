@@ -1,0 +1,5 @@
+Aim would be, one program per container. Have a "desktop linux vm which would then use ssh shortcuts to access the containers"
+
+ssh -p 22 -l gomer -X craig@192.168.0.7 'firefox'
+ssh -p 22 -l gomer -X craig@192.168.0.7 '/opt/google/chrome/chrome'
+ssh -p 22 -l gomer -X craig@192.168.0.7 'mysql-workbench'

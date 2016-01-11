@@ -5,6 +5,7 @@
 # Useful commands:
 #   docker build -t cmdock -f Dockerfile .
 #   docker run -i -t cmdock
+#   docker run -i -t -v /home/user craigmayhew/ws /bin/bash
 # 
 ############################################################
 

@@ -6,7 +6,7 @@
 #   docker build -t cmdock -f Dockerfile .
 #   docker run -i -t cmdock
 #   docker run -i -t -v /home/user craigmayhew/ws /bin/bash
-# 
+#   docker run -i -t -u user -v /home/user:/home/user craigmayhew/ws /bin/bash
 ############################################################
 
 # Set the base image to use to Ubuntu

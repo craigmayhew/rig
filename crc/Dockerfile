@@ -4,7 +4,7 @@
 ############################################################
 
 # Set the base image to use to Ubuntu
-FROM ubuntu:16.04
+FROM craigmayhew/wscrc:latest
 
 MAINTAINER Craig Mayhew
 

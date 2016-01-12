@@ -23,9 +23,6 @@ RUN apt-get --assume-yes update
 # cleanup
 RUN apt-get --assume-yes autoremove
 
-# download and install mysql workbench
-RUN wget https://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-workbench-community-6.3.6-1ubu1510-amd64.deb && apt-get --assume-yes install ./mysql-workbench-community-6.3.6-1ubu1510-amd64.deb && rm ./mysql-workbench-community-6.3.6-1ubu1510-amd64.deb
-
 # set terminal colours
 RUN setterm --term linux --back black --fore white --clear all
 

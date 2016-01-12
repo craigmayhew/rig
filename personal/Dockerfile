@@ -10,7 +10,7 @@
 ############################################################
 
 # Set the base image to use to Ubuntu
-FROM craigmayhew/wspersonal:latest
+FROM craigmayhew/ws:latest
 
 MAINTAINER Craig Mayhew
 

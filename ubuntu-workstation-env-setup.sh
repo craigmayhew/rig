@@ -4,33 +4,17 @@ sudo apt-get remove aisleriot brasero cheesegnome-mahjongg gnome-mines gnome-sud
 
 sudo apt-get update
 
-sudo add-apt-repository ppa:x2go/stable
-
-sudo apt-get install docker.io git libfreetype6:i386 libsm6:i386 libxext6:i386 openssh-server php5-cli php5-curl putty-tools vim virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 x2goserver x2goserver-xsession
+sudo apt-get install docker.io git libfreetype6:i386 libsm6:i386 libxext6:i386 openssh-server php5-cli php5-curl putty-tools vim virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
 
 #lose unitf gnome and add xmbc
 sudo apt-get install xubuntu-desktop gksu leafpad synaptic
 sudo apt-get remove gimp gmusicbrowser gnome-power-manager gnome-screensaver gnome-termina* gnome-pane* gnome-applet* gnome-bluetooth gnome-desktop* gnome-mahjongg gnome-sessio* gnome-user* gnome-shell-common compiz compiz* unity unity* hud zeitgeist zeitgeist* python-zeitgeist libzeitgeist* activity-log-manager-common gnome-control-center gnome-screenshot nautilus overlay-scrollba* rhythmbox && sudo apt-get install xubuntu-community-wallpapers && sudo apt-get autoremove
-
-#install openvpn
-sudo apt-get install openvpn
-
-#install command line text based browser
-sudo apt-get install links
-
-#install meld for comparing files in a gui
-sudo apt-get install meld
 
 #install curl
 sudo apt-get install curl
 
 #install vim as we need it to make vi use pathogen etc
 sudo apt-get install vim
-
-#install scala build tool
-echo "deb http://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
-sudo apt-get update
-sudo apt-get install sbt
 
 #cleanup
 sudo apt-get autoremove
@@ -82,40 +66,10 @@ AcceptEnv LANG LC_*
 Subsystem sftp /usr/lib/openssh/sftp-server
 EOL
 
-#add sources so we can get zfs packages
-deb http://ppa.launchpad.net/zfs-native/stable/ubuntu vivid main
-deb-src http://ppa.launchpad.net/zfs-native/stable/ubuntu vivid main
-
-#install zfs package
-sudo apt-get install ubuntu-zfs
-
-#create zfs tank over our 12 logical disks
-zpool create -m /tank tank sdb sdc sdd sde sdf sdg sdh sdi sdj sdk sdl sdm
-
-#set some zfs flags for compression dedupe
-zfs set dedupe=on tank
-zfs set dedup=fletcher4,verify tank
-zfs set compression=gzip tank
-
-#mount the volume every time the system boots
-echo 'zfs_enable="YES"' >> /etc/rc.conf
-
 #install antivirus
 sudo apt-get install clamav-daemon
 sudo freshclam
 sudo /etc/init.d/clamav-daemon start
-
-#download and install mysql workbench
-wget http://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-workbench-community-6.3.3-1ubu1404-amd64.deb
-sudo apt-get install mysql-workbench-community-6.3.3-1ubu1404-amd64.deb
-
-#install mysql command line client
-sudo apt-get install mysql-client-core-5.6
-
-#install skype
-sudo dpkg --add-architecture i386
-sudo add-apt-repository "deb http://archive.canonical.com/ $(lsb_release -sc) partner"
-sudo apt-get update && sudo apt-get install skype pulseaudio:i386
 
 #set terminal colours
 setterm --term linux --back black --fore white --clear all
@@ -128,27 +82,6 @@ rm -rf ~/dotfiles
 
 #we use this directory to hold our vim backup files
 mkdir -p ~/.vim/tmp
-
-#download repos from github that I maintain
-mkdir -p ~/gitrepos/mine
-cd ~/gitrepos/mine
-git clone https://github.com/craigmayhew/bigprimes.net.git
-git clone https://github.com/craigmayhew/craig.mayhew.io.git
-git clone https://github.com/craigmayhew/rai.git
-git clone https://github.com/craigmayhew/rig.git
-git clone https://github.com/craigmayhew/scratchpad.git
-
-#install arc for phabricator
-mkdir -p ~/gitrepos/others
-cd ~/gitrepos/others
-git clone https://github.com/phacility/libphutil.git
-git clone https://github.com/phacility/arcanist.git
-export PATH="$PATH:/home/craig/gitrepos/others/arcanist/bin"
-
-#as we have cloned the rig repo, we have a custom homepage, but we are currently forced to drop into sudo for this
-sudo su
-echo 'user_pref("browser.startup.homepage", "/home/user/gitrepos/mine/rig/homepage.html");' >> /etc/firefox/syspref.js
-exit
 
 #make the pretty git lg command available
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue) %an%Creset' --abbrev-commit"
@@ -174,14 +107,3 @@ wget https://github.com/chrissimpkins/Hack/raw/master/build/ttf/Hack-Bold.ttf
 wget https://github.com/chrissimpkins/Hack/raw/master/build/ttf/Hack-BoldItalic.ttf
 wget https://github.com/chrissimpkins/Hack/raw/master/build/ttf/Hack-Italic.ttf
 wget https://github.com/chrissimpkins/Hack/raw/master/build/ttf/Hack-Regular.ttf
-
-#add rai to crontab
-(crontab -l ; echo "*/10 * * * * php /home/craig/gitrepos/mine/rai/cron.php rss")| crontab -
-(crontab -l ; echo "*/30 * * * * php /home/craig/gitrepos/mine/rai/cron.php myip")| crontab -
-
-#install sencha tools
-sudo apt-get install openjdk-7-jre
-wget http://192.168.15.235/sencha/cmd-6.0.0.202-linux-amd64.zip
-unzip cmd-6.0.0.202-linux-amd64.zip
-./SenchaCmd-6.0.0.202-linux-amd64.sh
-sudo ln -s /home/craig/bin/Sencha/Cmd/sencha /usr/bin/sencha

@@ -65,9 +65,6 @@ RUN setterm --term linux --back black --fore white --clear all
 
 RUN cd /home/user/ && git clone https://github.com/craigmayhew/dotfiles.git && rsync -a dotfiles/ /home/user/ && rm -rf /home/user/dotfiles
 
-# install arc for phabricator
-RUN mkdir -p /home/user/gitrepos/others && cd /home/user/gitrepos/others && git clone https://github.com/phacility/libphutil.git && git clone https://github.com/phacility/arcanist.git && export PATH="$PATH:/home/craig/gitrepos/others/arcanist/bin"
-
 # make the pretty git lg command available
 RUN git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue) %an%Creset' --abbrev-commit"
 # undo the last git commit

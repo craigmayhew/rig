@@ -47,7 +47,7 @@ RUN git config --global branch.autosetuprebase always
 RUN mkdir -p /home/user/.fonts/ && cd /home/user/.fonts/ && wget https://github.com/chrissimpkins/Hack/raw/master/build/ttf/Hack-Bold.ttf && wget https://github.com/chrissimpkins/Hack/raw/master/build/ttf/Hack-BoldItalic.ttf && wget https://github.com/chrissimpkins/Hack/raw/master/build/ttf/Hack-Italic.ttf && wget https://github.com/chrissimpkins/Hack/raw/master/build/ttf/Hack-Regular.ttf
 
 #install sencha tools
-RUN apt-get install openjdk-7-jre && wget http://192.168.15.235/sencha/cmd-6.0.0.202-linux-amd64.zip && unzip cmd-6.0.0.202-linux-amd64.zip && ./SenchaCmd-6.0.0.202-linux-amd64.sh && ln -s /home/user/bin/Sencha/Cmd/sencha /usr/bin/sencha
+RUN apt-get install --assume-yes openjdk-7-jre && wget http://192.168.15.235/sencha/cmd-6.0.0.202-linux-amd64.zip && unzip cmd-6.0.0.202-linux-amd64.zip && ./SenchaCmd-6.0.0.202-linux-amd64.sh && ln -s /home/user/bin/Sencha/Cmd/sencha /usr/bin/sencha
 
 # Port to expose (default: 11211)
 EXPOSE 11211

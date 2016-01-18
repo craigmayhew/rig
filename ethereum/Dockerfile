@@ -26,3 +26,7 @@ RUN add-apt-repository ppa:ethereum/ethereum && apt-get --assume-yes update && a
 
 #report gpu hash rate
 #RUN ethminer -G -M
+
+#write a dapp
+#eth --frontier -b -i
+#web3.eth.getCompilers()

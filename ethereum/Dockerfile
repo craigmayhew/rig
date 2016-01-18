@@ -16,7 +16,11 @@ RUN eth --address 0101010101010101010101010
 #mine with one thread to your address
 RUN cd /home/user/
 RUN wget http://jev.io/genesis_block.json
-RUN geth --mine --minerthreads=1 --genesis /home/user/genesis_block.json --etherbase 000101010101010101010101010101
+#RUN geth --mine --minerthreads=1 --genesis /home/user/genesis_block.json --etherbase 000101010101010101010101010101
+
+RUN add-apt-repository ppa:ethereum/ethereum
+RUN apt-get update
+RUN apt-get install solc
 
 #get to the geth console
 #RUN geth -console

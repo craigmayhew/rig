@@ -27,6 +27,10 @@ RUN apt-get --assume-yes autoremove
 # download dot files from github
 RUN cd /home/user/ && git clone https://github.com/craigmayhew/dotfiles.git && rsync -a dotfiles/ /home/user/ && rm -rf /home/user/dotfiles
 
+# set git info
+RUN git config --global user.email "craig@mayhew.io"
+RUN git config --global user.name "Craig Mayhew"
+
 # download repos from github that I maintain
 RUN mkdir -p /home/user/gitrepos/mine && cd /home/user/gitrepos/mine && git clone https://github.com/craigmayhew/craig.mayhew.io.git
 RUN mkdir -p /home/user/gitrepos/mine && cd /home/user/gitrepos/mine && git clone https://github.com/craigmayhew/rig.git

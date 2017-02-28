@@ -1,0 +1,426 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": {
+    "KeyName": {
+      "Type": "AWS::EC2::KeyPair::KeyName",
+      "Description": "Name of an existing EC2 key pair to enable SSH access to the instances."
+    },
+    "InstanceType": {
+      "Description": "EC2 instance type/size",
+      "Type": "String",
+      "Default": "t2.micro",
+      "AllowedValues": [
+        "t2.micro",
+        "t2.small",
+        "t2.medium",
+        "t2.large",
+        "m3.medium",
+        "m3.large",
+        "m3.xlarge",
+        "m3.2xlarge",
+        "m4.large",
+        "m4.xlarge",
+        "m4.2xlarge",
+        "m4.4xlarge",
+        "m4.10xlarge",
+        "c4.large",
+        "c4.xlarge",
+        "c4.2xlarge",
+        "c4.4xlarge",
+        "c4.8xlarge",
+        "c3.large",
+        "c3.xlarge",
+        "c3.2xlarge",
+        "c3.4xlarge",
+        "c3.8xlarge",
+        "r3.large",
+        "r3.xlarge",
+        "r3.2xlarge",
+        "r3.4xlarge",
+        "r3.8xlarge",
+        "i2.xlarge",
+        "i2.2xlarge",
+        "i2.4xlarge",
+        "i2.8xlarge"
+      ],
+      "ConstraintDescription": "Please choose a valid instance type."
+    },
+    "ParamDNSPrefix" : {
+        "Default"       : "currentdate-",
+        "Description"   : "To ensure if you bring a live and a test environment up, the DNS entries remains unique",
+        "Type"          : "String"
+    }
+  },
+  "Mappings": {
+    "AWSRegionToAMI": {
+      "eu-west-2": {
+        "AMIID": "ami-64999300"
+      }
+    }
+  },
+  "Resources": {
+    "SecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Security Group",
+        "VpcId": {
+          "Ref": "VPC"
+        }
+      }
+    },
+    "SecurityGroupRDPinbound": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "SecurityGroup"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "3389",
+        "ToPort": "3389",
+        "CidrIp": "0.0.0.0/0"
+      }
+    },
+    "CloudwatchLogsGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "-",
+            [
+              "LogGroup",
+              {
+                "Ref": "AWS::StackName"
+              }
+            ]
+          ]
+        },
+        "RetentionInDays": 14
+      }
+    },
+    "InternetGateway"         : {
+        "Type" : "AWS::EC2::InternetGateway",
+        "Properties" : {
+            "Tags" : [
+                {
+                    "Key" : "Application",
+                    "Value" : {
+                        "Ref" : "AWS::StackId"
+                    }
+                }
+            ]
+        }
+    },
+    "AttachGateway"           : {
+        "DependsOn" : ["InternetGateway", "VPC"],
+        "Type"      : "AWS::EC2::VPCGatewayAttachment",
+        "Properties" : {
+            "VpcId" : {
+                "Ref" : "VPC"
+            },
+            "InternetGatewayId" : {
+                "Ref" : "InternetGateway"
+            }
+        }
+    },
+    "MyRouteTable"            : {
+        "DependsOn" : "VPC",
+        "Type" : "AWS::EC2::RouteTable",
+        "Properties" : {
+            "VpcId" : {
+                "Ref" : "VPC"
+            },
+            "Tags"  : [
+                {
+                    "Key" : "Application",
+                    "Value" : {
+                        "Ref" : "AWS::StackId"
+                    }
+                }
+            ]
+        }
+    },
+    "Route"                   : {
+        "Type" : "AWS::EC2::Route",
+        "DependsOn" : [
+            "AttachGateway",
+            "MyRouteTable"
+        ],
+        "Properties" : {
+            "RouteTableId" : {
+                "Ref" : "MyRouteTable"
+            },
+            "DestinationCidrBlock" : "0.0.0.0/0",
+            "GatewayId"            : {
+                "Ref" : "InternetGateway"
+            }
+        }
+    },
+    "SubnetRouteTableAssociationA" : {
+        "DependsOn" : [
+            "SubnetIdA",
+            "MyRouteTable"
+        ],
+        "Properties" : {
+            "SubnetId" : {
+                "Ref" : "SubnetIdA"
+            },
+            "RouteTableId" : {
+                "Ref" : "MyRouteTable"
+            }
+        },
+        "Type" : "AWS::EC2::SubnetRouteTableAssociation"
+    },
+    "SubnetRouteTableAssociationB" : {
+        "DependsOn" : [
+            "SubnetIdB",
+            "MyRouteTable"
+        ],
+        "Properties" : {
+            "SubnetId" : {
+                "Ref" : "SubnetIdB"
+            },
+            "RouteTableId" : {
+                "Ref" : "MyRouteTable"
+            }
+        },
+        "Type" : "AWS::EC2::SubnetRouteTableAssociation"
+    },
+    "Workstation" : {
+      "Type" : "AWS::EC2::Instance",
+      "Metadata" : {
+        "AWS::CloudFormation::Init" : {
+            "commands" : {
+                "1-run-windows-update" : {
+                  "command" : "wuauclt.exe /detectnow /updatenow"
+                }
+            }
+        }
+      },
+      "Properties": {
+        "ImageId": {
+          "Fn::FindInMap": [
+            "AWSRegionToAMI",
+            {
+              "Ref": "AWS::Region"
+            },
+            "AMIID"
+          ]
+        },
+        "NetworkInterfaces" : [
+            {
+                "GroupSet" : [
+                    {
+                        "Ref" : "SecurityGroup"
+                    }
+                ],
+                "AssociatePublicIpAddress" : "true",
+                "DeviceIndex"              : "0",
+                "DeleteOnTermination"      : "true",
+                "SubnetId"                 : {
+                    "Ref" : "SubnetIdB"
+                }
+            }
+        ],
+        "InstanceType": {
+          "Ref": "InstanceType"
+        },
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "BlockDeviceMappings": [
+          {
+            "DeviceName": "/dev/sda1",
+            "Ebs": {
+              "VolumeSize": "100",
+              "VolumeType": "gp2"
+            }
+          }
+        ],
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Join": [
+              "",
+              [
+                "<powershell> \n",
+                
+                "\n# change windows explorer settings to show hidden files and folders\n",
+                "$key = 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced'\n",
+                "Set-ItemProperty $key Hidden 1\n",
+                "Set-ItemProperty $key HideFileExt 0\n",
+                "Set-ItemProperty $key ShowSuperHidden 1\n",
+                "Stop-Process -processname explorer\n",
+                
+                "\n# notepad plus plus\n",
+                "$nppZipUri = \"https://notepad-plus-plus.org/repository/7.x/7.3.2/npp.7.3.2.bin.zip\";",
+                "$expectednppZipMD5 = \"b7ae7a14d8ebd7a58ae9353d31dd0447\";",
+                "$nppExeDir = \"$env:ProgramFiles\\NotepadPlusPlus\";",
+                "$zipFile = \"C:\\Users\\Administrator\\Downloads\\npp.zip\";",
+                "Invoke-RestMethod -OutFile $zipFile -Uri $nppZipUri;",
+                "$md5 = New-Object -TypeName System.Security.Cryptography.MD5CryptoServiceProvider;",
+                "$actualMD5 = [System.BitConverter]::ToString($md5.ComputeHash([System.IO.File]::ReadAllBytes($zipFile))).replace(\"-\", \"\");",
+                "if($expectednppZipMD5 -ne $actualMD5) {",
+                  "echo \"NPP does not match hash.\";",
+                  "echo \"Expected: $expectednppZipMD5 - Got: $actualMD5\";",
+                  "exit 1;",
+                "};",
+                "Expand-Archive -Path $zipFile -DestinationPath $nppExeDir -Force;\n",
+                
+                "$AppLocation = \"C:\\ProgramFiles\\NotepadPlusPlus\\notepad++.exe\";\n",
+                "$WshShell = New-Object -ComObject WScript.Shell;\n",
+                "$Shortcut = $WshShell.CreateShortcut(\"$Home\\Desktop\\notepad++.lnk\");\n",
+                "$Shortcut.TargetPath = $AppLocation;\n",
+                "$Shortcut.Arguments = \"\";\n",
+                "$Shortcut.IconLocation = \"hotplug.dll,0\";\n",
+                "$Shortcut.Description = \"Notepad\";\n",
+                "$Shortcut.WorkingDirectory = \"C:\\Windows\\System32\";\n",
+                "$Shortcut.Save();\n",
+                
+                "\n# steam\n",
+                "$steamExeUri = \"https://steamcdn-a.akamaihd.net/client/installer/SteamSetup.exe\";",
+                "$exeFile = \"C:\\Users\\Administrator\\Downloads\\steam.exe\";",
+                "Invoke-RestMethod -OutFile $exeFile -Uri $steamExeUri;",
+                
+                "\n# phpstorm\n",
+                "$phpstormExeUri = \"https://download.jetbrains.com/webide/PhpStorm-2016.3.2.exe\";",
+                "$zipFile = \"C:\\Users\\Administrator\\Downloads\\phpstorm.exe\";",
+                "Invoke-RestMethod -OutFile $zipFile -Uri $phpstormExeUri;",
+                
+                "\n# heidi\n",
+                "$heidiZipUri = \"https://www.heidisql.com/downloads/releases/HeidiSQL_9.4_Portable.zip\";",
+                "$zipFile = \"C:\\Users\\Administrator\\Downloads\\heidi.zip\";",
+                "$heidiExeDir = \"C:\\ProgramFiles\\Heidi\";",
+                "Invoke-RestMethod -OutFile $zipFile -Uri $heidiZipUri;",
+                "Expand-Archive -Path $zipFile -DestinationPath $heidiExeDir -Force;\n",
+                "$AppLocation = \"C:\\ProgramFiles\\Heidi\\heidisql.exe\";\n",
+                "$WshShell = New-Object -ComObject WScript.Shell;\n",
+                "$Shortcut = $WshShell.CreateShortcut(\"$Home\\Desktop\\Heidi.lnk\");\n",
+                "$Shortcut.TargetPath = $AppLocation;\n",
+                "$Shortcut.Arguments = \"\";\n",
+                "$Shortcut.IconLocation = \"hotplug.dll,0\";\n",
+                "$Shortcut.Description = \"Heidi\";\n",
+                "$Shortcut.WorkingDirectory = \"C:\\ProgramFiles\\Heidi\";\n",
+                "$Shortcut.Save();\n",
+                
+                
+                "\n# end of script\n",
+                " cfn-init.exe -v -s ",
+                {
+                  "Ref": "AWS::StackId"
+                },
+                " -r Workstation",
+                " --region ",
+                {
+                  "Ref": "AWS::Region"
+                },
+                "\n",
+                " cfn-signal.exe -e $lastexitcode --stack ",
+                {
+                  "Ref": "AWS::StackName"
+                },
+                "   --resource AutoScalingGroup ",
+                "    --region ",
+                {
+                  "Ref": "AWS::Region"
+                },
+                "; \n",
+                " </powershell>\n",
+                "<persist>true</persist>"
+              ]
+            ]
+          }
+        }
+      }
+    },
+    "VPC" : {
+        "Type" : "AWS::EC2::VPC",
+        "Properties" : {
+            "CidrBlock" : "10.0.0.0/16",
+            "EnableDnsSupport" : "true",
+            "EnableDnsHostnames" : "true",
+            "InstanceTenancy"    : "default",
+            "Tags"               : [
+                {
+                    "Key" : "Application",
+                    "Value" : {
+                        "Ref" : "AWS::StackName"
+                    }
+                },{
+                    "Key" : "Name",
+                    "Value" : {
+                        "Ref" : "AWS::StackName"
+                    }
+                }
+            ]
+        }
+    },
+    "SubnetIdA"               : {
+        "Type" : "AWS::EC2::Subnet",
+        "Properties" : {
+            "AvailabilityZone" : "eu-west-2a",
+            "CidrBlock"        : "10.0.0.0/24",
+            "MapPublicIpOnLaunch" : "true",
+            "Tags"                : [
+                {
+                    "Key" : "Application",
+                    "Value" : {
+                        "Ref" : "AWS::StackName"
+                    }
+                }
+            ],
+            "VpcId"               : {
+                "Ref" : "VPC"
+            }
+        }
+    },
+    "SubnetIdB"               : {
+        "Type" : "AWS::EC2::Subnet",
+        "Properties" : {
+            "AvailabilityZone" : "eu-west-2b",
+            "CidrBlock"        : "10.0.1.0/24",
+            "MapPublicIpOnLaunch" : "true",
+            "Tags"                : [
+                {
+                    "Key" : "Application",
+                    "Value" : {
+                        "Ref" : "AWS::StackName"
+                    }
+                }
+            ],
+            "VpcId"               : {
+                "Ref" : "VPC"
+            }
+        }
+    },
+    "DNSRecordWorkStation" : {
+          "Type" : "AWS::Route53::RecordSet",
+          "Properties" : {
+             "HostedZoneName" : "mayhew.io.",
+             "Comment" : "Workstation url.",  
+             "Name" : {"Fn::Join" : ["",[{"Ref" : "ParamDNSPrefix"},"ws.mayhew.io."]]},
+             "Type" : "CNAME",
+             "TTL" : "300",
+             "ResourceRecords" : [
+                { "Fn::GetAtt":["Workstation","PublicDnsName"] }
+             ]
+          }
+        }
+  },
+  "Outputs": {
+    "EC2RDP": {
+      "Description": "Your instance url, username is Administrator",
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            {
+              "Fn::GetAtt": [
+                "Workstation",
+                "PublicDnsName"
+              ]
+            }
+          ]
+        ]
+      }
+    }
+  }
+}
